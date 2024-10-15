@@ -89,6 +89,9 @@ This confirms that the "greet" node has processed the input and appended "Hello 
 
 To better understand the structure and flow of the graph, you can visualize it using Mermaid. This will generate a PNG image that displays the nodes and edges, representing the flow from start to end within the graph.
 
+![Workflow Graph](./graph_20916.png)
+
+
 ```python
 from langchain_core.runnables.graph import MermaidDrawMethod
 import os
