@@ -64,3 +64,66 @@ builder = StateGraph(HelloWorldState)
 builder.add_node("greet", hello_world_node)
 builder.add_edge(START, "greet")  # Connect START to the "greet" node
 builder.add_edge("greet", END)    # Connect the "greet" node to END
+```
+
+### 4. Compiling and Executing the Graph
+
+After defining the graph, the next step is to compile it, which prepares it for execution. Once compiled, we invoke the graph with an initial state. In this example, the initial state includes a greeting message. The result of invoking the graph is printed, displaying the final output.
+
+```python
+graph = builder.compile()
+result = graph.invoke({"greeting": "from LangGraph!"})
+print(result)  # Output: {'greeting': 'Hello World, from LangGraph!'}
+```
+
+In this case, the output should be:
+
+
+```python
+{'greeting': 'Hello World, from LangGraph!'}
+```
+
+This confirms that the "greet" node has processed the input and appended "Hello World" to the greeting.
+
+### 5. Visualizing the Graph
+
+To better understand the structure and flow of the graph, you can visualize it using Mermaid. This will generate a PNG image that displays the nodes and edges, representing the flow from start to end within the graph.
+
+```python
+from langchain_core.runnables.graph import MermaidDrawMethod
+import os
+import random
+
+# Generate a visual representation of the graph in PNG format
+mermaid_png = graph.get_graph(xray=1).draw_mermaid_png(draw_method=MermaidDrawMethod.API)
+
+# Specify the output folder and save the image with a unique filename
+output_folder = "."
+os.makedirs(output_folder, exist_ok=True)
+filename = os.path.join(output_folder, f"graph_{random.randint(1, 100000)}.png")
+
+with open(filename, 'wb') as f:
+    f.write(mermaid_png)
+
+```
+The PNG file will be saved in the current directory under a randomly generated name, such as graph_12345.png. You can manually open this file to see the graph's structure.
+
+Alternatively, you can use the following code snippet to automatically open the generated image, depending on your operating system:
+
+```python
+import subprocess
+import sys
+
+if sys.platform.startswith('darwin'):   # For macOS
+    subprocess.call(('open', filename))
+elif sys.platform.startswith('linux'):  # For Linux
+    subprocess.call(('xdg-open', filename))
+elif sys.platform.startswith('win'):    # For Windows
+    os.startfile(filename)
+```
+
+By visualizing the graph, you can confirm how nodes are interconnected and gain insight into the agent's flow from start to finish. This step is valuable for debugging and understanding the behavior of more complex AI agents as you continue to develop with LangGraph.
+
+To proceed further, explore adding more nodes and edges or modifying the graph to perform different tasks. Visualization tools like Mermaid help you keep track of these changes and ensure your graph operates as intended.
+
+Happy Coding!
